@@ -1,11 +1,22 @@
 
 from . import api_blueprint
+from flask import request, jsonify
+from app.services import huggingface_services, pinecone_service, scraping_service
+from app.utils.helper_functions import chunk_text
+
+# Sample index name since we're only creating a single index
+PINECONE_INDEX_NAME = 'index237'
 
 @api_blueprint.route('/embed-and-store', methods=['POST'])
 def embed_and_store():
-  # handles scraping the URL, embedding the texts, and
-  # uploading to the vector database.
-  pass
+    url = request.json['url']
+    url_text = scraping_service.scrape_website(url)
+    chunks = chunk_text(url_text)
+    pinecone_service.embed_chunks_and_upload_to_pinecone(chunks, PINECONE_INDEX_NAME)
+    response_json = {
+        "message": "Chunks embedded and stored successfully"
+    }
+    return jsonify(response_json)
 
 @api_blueprint.route('/handle-query', methods=['POST'])
 def handle_query():
