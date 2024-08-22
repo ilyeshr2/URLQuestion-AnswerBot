@@ -9,6 +9,7 @@ PINECONE_INDEX_NAME = 'index237'
 
 @api_blueprint.route('/embed-and-store', methods=['POST'])
 def embed_and_store():
+    # Extract the URL from the JSON payload
     url = request.json['url']
     url_text = scraping_service.scrape_website(url)
     chunks = chunk_text(url_text)
