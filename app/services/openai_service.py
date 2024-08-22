@@ -1,22 +1,21 @@
 import os
-import json
 import requests
-from openai import OpenAI
+from dotenv import load_dotenv
 
-OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
-OPENAI_EMBEDDING_MODEL = 'text-embedding-ada-002'
+# Load the API key from an environment variable
+load_dotenv()
+hf_token = os.getenv('API_KEY')
+headers = {"Authorization": f"Bearer {hf_token}"}
+
+# Define the model ID
+model_id = "sentence-transformers/all-MiniLM-L6-v2"
+api_url = f"https://api-inference.huggingface.co/pipeline/feature-extraction/{model_id}"
 
 def get_embedding(chunk):
-  url = 'https://api.openai.com/v1/embeddings'
-  headers = {
-      'content-type': 'application/json; charset=utf-8',
-      'Authorization': f"Bearer {OPENAI_API_KEY}"            
-  }
-  data = {
-      'model': OPENAI_EMBEDDING_MODEL,
-      'input': chunk
-  }
-  response = requests.post(url, headers=headers, data=json.dumps(data))  
-  response_json = response.json()
-  embedding = response_json["data"][0]["embedding"]
-  return embedding
+    response = requests.post(api_url, headers=headers, json={"inputs": chunk, "options": {"wait_for_model": True}})
+    response_json = response.json()
+    embedding = response_json[0]
+    return embedding
+
+
+
