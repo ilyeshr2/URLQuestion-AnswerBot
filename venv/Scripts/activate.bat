@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\2417034\Documents\GitHub\WebNexus\venv
+set VIRTUAL_ENV=C:\Users\ilyes\OneDrive\Bureau\js projects\WebNexus\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
