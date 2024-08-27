@@ -1,7 +1,7 @@
 
 from . import api_blueprint
 from flask import request, jsonify
-from app.services import huggingface_services, pinecone_service, scraping_service
+from app.services import openai_service, pinecone_service, scraping_service
 from app.utils.helper_functions import chunk_text
 
 # Sample index name since we're only creating a single index

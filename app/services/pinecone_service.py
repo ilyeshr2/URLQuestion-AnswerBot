@@ -1,5 +1,5 @@
 from pinecone import Pinecone, ServerlessSpec
-from app.services.huggingface_services import get_embedding
+from app.services.openai_service import get_embedding
 from dotenv import load_dotenv
 import os
 
