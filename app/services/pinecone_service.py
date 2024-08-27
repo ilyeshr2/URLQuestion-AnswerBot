@@ -22,8 +22,8 @@ def embed_chunks_and_upload_to_pinecone(chunks, index_name):
                     dimension=EMBEDDING_DIMENSION, 
                     metric='cosine', 
                     spec=ServerlessSpec(
-                        cloud='gcp',   # Ensure this matches your environment
-                        region='starter'  # Update this based on your Pinecone environment
+                        cloud='aws', 
+                        region='us-east-1'
                     ))
     index = pc.Index(index_name)  # Update this line
     
