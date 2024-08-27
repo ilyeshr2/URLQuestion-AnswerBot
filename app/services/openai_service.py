@@ -3,6 +3,8 @@ import json
 import requests
 from openai import OpenAI
 
+from app.utils import helper_functions
+
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 OPENAI_EMBEDDING_MODEL = 'text-embedding-ada-002'
 CHATGPT_MODEL = 'gpt-4-1106-preview'
@@ -22,25 +24,29 @@ def get_embedding(chunk):
   embedding = response_json["data"][0]["embedding"]
   return embedding
 
-def get_llm_answer(prompt):
-  # Aggregate a messages array to send to the LLM
-  messages = [{"role": "system", "content": "You are a helpful assistant."}]
-  messages.append({"role": "user", "content": prompt})
-  # Send the payload to the LLM to retrieve an answer
-  url = 'https://api.openai.com/v1/chat/completions'
+def construct_llm_payload(question, context_chunks, chat_history):
+  
+  # Build the prompt with the context chunks and user's query
+  prompt = helper_functions.build_prompt(question, context_chunks)
+  print("\n==== PROMPT ====\n")
+  print(prompt)
+
+  # Construct messages array to send to OpenAI
+  messages = helper_functions.construct_messages_list(chat_history, prompt)
+
+  # Construct headers including the API key
   headers = {
       'content-type': 'application/json; charset=utf-8',
       'Authorization': f"Bearer {OPENAI_API_KEY}"            
-  }
+  }  
+
+  # Construct data payload
   data = {
       'model': CHATGPT_MODEL,
       'messages': messages,
       'temperature': 1, 
-      'max_tokens': 1000
+      'max_tokens': 1000,
+      'stream': True
   }
-  response = requests.post(url, headers=headers, data=json.dumps(data))
-  
-  # return the final answer
-  response_json = response.json()
-  completion = response_json["choices"][0]["message"]["content"]
-  return completion
+
+  return headers, data

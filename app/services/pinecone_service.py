@@ -1,12 +1,12 @@
 import pinecone
 from app.services.openai_service import get_embedding
 import os
-from pinecone import Pinecone, ServerlessSpec  # Add this import
+from pinecone import Pinecone, ServerlessSpec
 
 PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
 
 # Initialize Pinecone using the new method
-pc = Pinecone(api_key=PINECONE_API_KEY)  # Replace the old init with this
+pc = Pinecone(api_key=PINECONE_API_KEY)
 
 EMBEDDING_DIMENSION = 1536
 
@@ -14,18 +14,18 @@ def embed_chunks_and_upload_to_pinecone(chunks, index_name):
     
     # delete the index if it already exists. 
     # as Pinecone's free plan only allows one index
-    if index_name in pc.list_indexes().names():  # Update this line
-        pc.delete_index(name=index_name)  # Update this line
+    if index_name in pc.list_indexes().names():  # Use the client instance to list indexes
+        pc.delete_index(name=index_name)  # Use the client instance to delete the index
     
     # create a new index in Pinecone
-    pc.create_index(name=index_name,  # Update this line
+    pc.create_index(name=index_name,  # Use the client instance to create the index
                     dimension=EMBEDDING_DIMENSION, 
                     metric='cosine', 
                     spec=ServerlessSpec(
                         cloud='aws', 
                         region='us-east-1'
                     ))
-    index = pc.Index(index_name)  # Update this line
+    index = pc.Index(index_name)  # Get the index object using the client instance
     
     # embed each chunk and aggregate these embeddings
     embeddings_with_ids = []
@@ -54,3 +54,7 @@ def get_most_similar_chunks_for_query(query, index_name):
     context_chunks = [x['metadata']['chunk_text'] for x in query_results['matches']]
     return context_chunks
 
+def delete_index(index_name):
+    # Use the client instance to list and delete the index
+    if index_name in pc.list_indexes().names():
+        pc.delete_index(name=index_name)
