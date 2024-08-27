@@ -1,12 +1,11 @@
-import os
-import json
 import requests
-from openai import OpenAI
-
-from app.utils import helper_functions
+import json
+import os
+from app.utils.helper_functions import build_prompt, construct_messages_list
 
 OPENAI_API_KEY = os.environ.get('OPENAI_API_KEY')
 OPENAI_EMBEDDING_MODEL = 'text-embedding-ada-002'
+PROMPT_LIMIT = 3750
 CHATGPT_MODEL = 'gpt-4-1106-preview'
 
 def get_embedding(chunk):
@@ -27,12 +26,12 @@ def get_embedding(chunk):
 def construct_llm_payload(question, context_chunks, chat_history):
   
   # Build the prompt with the context chunks and user's query
-  prompt = helper_functions.build_prompt(question, context_chunks)
+  prompt = build_prompt(question, context_chunks)
   print("\n==== PROMPT ====\n")
   print(prompt)
 
   # Construct messages array to send to OpenAI
-  messages = helper_functions.construct_messages_list(chat_history, prompt)
+  messages = construct_messages_list(chat_history, prompt)
 
   # Construct headers including the API key
   headers = {
