@@ -31,3 +31,11 @@ def embed_chunks_and_upload_to_pinecone(chunks, index_name):
     # to the Pinecone index
     upserts = [(id, vec, {"chunk_text": text}) for id, vec, text in embeddings_with_ids]
     index.upsert(vectors=upserts)
+    
+    
+    def get_most_similar_chunks_for_query(query, index_name):
+        question_embedding = get_embedding(query)
+        index = pinecone.Index(index_name)
+        query_results = index.query(question_embedding, top_k=3, include_metadata=True)
+        context_chunks = [x['metadata']['chunk_text'] for x in query_results['matches']]
+        return context_chunks
