@@ -20,6 +20,7 @@ def get_embedding(chunk):
   }
   response = requests.post(url, headers=headers, data=json.dumps(data))  
   response_json = response.json()
+  print(response_json)
   embedding = response_json["data"][0]["embedding"]
   return embedding
 

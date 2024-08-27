@@ -27,7 +27,7 @@ function UrlInput({ onSubmit }) {
         onSubmit();
       } else {
         // Handle error responses here
-        setResponseMessage('Error: Something went wrong.');
+        setResponseMessage('Error');
       }
     } catch (error) {
       console.error('Error:', error);
