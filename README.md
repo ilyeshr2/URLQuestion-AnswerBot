@@ -44,8 +44,8 @@ This project is a web application that allows users to enter a URL, then ask que
 2. Set up a virtual environment:
 
     ```bash
-    pipenv install
-    pipenv shell
+    py -3 -m venv .venv
+    .venv\Scripts\activate
     ```
 
 3. Install the required Python packages:
