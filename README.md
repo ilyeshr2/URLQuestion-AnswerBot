@@ -21,11 +21,6 @@ This project is a web application that allows users to enter a URL, then ask que
 ## Installation
 
 
-  ```bash
-    pip install -r requirements.txt
-  ```
-
-    
 ### Prerequisites
 
 - Python 3.x
