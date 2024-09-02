@@ -37,8 +37,8 @@ This project is a web application that allows users to enter a URL, then ask que
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/your-repo.git
-    cd your-repo
+    git clone https://github.com/ilyeshr2/URLQuestion-AnswerBot.git
+    cd URLQuestion-AnswerBot
     ```
 
 2. Set up a virtual environment:
