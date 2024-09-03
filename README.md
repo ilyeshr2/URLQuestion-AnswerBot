@@ -3,7 +3,7 @@
 This project is a web application that allows users to enter a URL, then ask questions about the content of the page. The application scrapes the content of the URL, processes it to create embeddings, and then stores these embeddings in Pinecone. Users can interact with the bot via a chat interface to get answers to their questions based on the content of the scraped URL.
 
 
-![urlgif2](https://github.com/user-attachments/assets/a17e374d-2939-4bde-ac0f-1e3cacb9af75)
+![url2](https://github.com/user-attachments/assets/f797f822-48e2-4e11-a5a5-f7b848c6886c)
 
 
 ## Features
